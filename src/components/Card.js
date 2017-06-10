@@ -22,7 +22,9 @@ export default class Card extends Component {
 
     return (
       <div className='card'>
-        <div className='card_title'>{this.props.title}</div>
+        <div className='card_title' onClick={
+            ()=>this.setState({ showDetails: !this.state.showDetails })
+          }>{this.props.title}</div>
         {cardDetails}
       </div>
     );

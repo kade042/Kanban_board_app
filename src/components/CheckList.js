@@ -15,6 +15,9 @@ export default class CheckList extends Component {
         <ul>
           {tasks}
         </ul>
+        <input  type='text'
+                className='checklist--add-task'
+                placeholder='Type then hit Enter to add a task'/>
       </div>
     );
   }

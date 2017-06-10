@@ -93,5 +93,6 @@ ul {
 .checklist_task--remove:after {
   display: inline-block;
   color: red;
+  font-weight: bold;
   content: 'x';
 }

@@ -10,7 +10,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/static/',
+    publicPath: '/dist/',
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -18,7 +18,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['react-hot', 'babel'],
+      loaders: ['react-hot-loader', 'babel-loader'],
       include: path.join(__dirname, 'src'),
     },
     {

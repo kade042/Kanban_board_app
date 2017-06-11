@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import KanBanboard from './components/KanBanboard';
+import KanBanboardContainer from './components/KanBanboardContainer';
 
 let cardsList = [
   {
@@ -35,11 +35,18 @@ let cardsList = [
       },
     ],
   },
+  {
+    id: 3,
+    title: 'This is a new card with a very, very long title, thus having more than 80 characters wow it\'s too long it seems i was reading the all contents',
+    color: '#15438F',
+    status: 'done',
+    tasks: [],
+  },
 ];
 
 const rootEl = document.getElementById('root');
 
 render(
-    <KanBanboard cards={cardsList} />,
+    <KanBanboardContainer  />,
     rootEl
 );

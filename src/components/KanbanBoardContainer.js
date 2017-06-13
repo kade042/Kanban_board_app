@@ -28,9 +28,11 @@ export default class KanBanboardContainer extends Component {
     .catch((error) => {
       console.log('Error fetching and parsing data', error);
     });
+    window.state = this.state;
   }
 
   addTask(cardId, taskName) {
+    let prevState = this.state;
     let cardIndex = this.state.cards.findIndex((card)=> card.id == cardId);
     let newTask = { id: new Date(), name: taskName, done: false };
 
@@ -46,16 +48,25 @@ export default class KanBanboardContainer extends Component {
       headers: API_HEADERS,
       body: JSON.stringify(newTask),
     })
-    .then((response)=> response.json())
+    .then((response)=> {
+      if (response.ok) {
+        return response.json();
+      }else {
+        throw new Error('Server response wasn\'t ok');
+      }
+    })
     .then((responseData)=> {
       newTask.id = responseData.id;
       this.setState({ cards: nextState });
+    }).catch((error)=> {
+      this.setState(prevState);
     });
 
   }
 
   deleteTask(cardId, taskId, taskIndex) {
     let cardIndex = this.state.cards.findIndex((card)=>card.id == cardId);
+    let prevState = this.state;
     let nextState = update(this.state.cards, {
                             [cardIndex]: {
                               tasks: { $splice: [[taskIndex, 1]] },
@@ -65,11 +76,20 @@ export default class KanBanboardContainer extends Component {
     fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
       method: 'delete',
       headers: API_HEADERS,
+    })
+    .then((response)=> {
+      if (!response.ok) {
+        throw new Error('Server response wasn\'t ok');
+      }
+    }).catch((error)=> {
+      console.error('Fetch error: ', error);
+      this.setState(prevState);
     });
   }
 
   toggleTask(cardId, taskId, taskIndex) {
     let cardIndex = this.state.cards.findIndex((card)=>card.id == cardId);
+    let prevState = this.state;
     let newDoneValue;
     let nextState = update(this.state.cards, {
                             [cardIndex]: {
@@ -92,6 +112,13 @@ export default class KanBanboardContainer extends Component {
       method: 'put',
       headers: API_HEADERS,
       body: JSON.stringify({ done: newDoneValue }),
+    }).then((response)=> {
+      if (!response.ok) {
+        throw new Error('Server response wasn\'t ok');
+      }
+    }).catch((error)=> {
+      console.error('Fetch error: ', error);
+      this.setState(prevState);
     });
   }
 

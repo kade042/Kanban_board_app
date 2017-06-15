@@ -8,7 +8,7 @@ import 'babel-polyfill';
 const API_URL = 'http://kanbanapi.pro-react.com/';
 const API_HEADERS = {
   'Content-Type': 'application/json',
-  Authorization: 'pro-react',
+  Authorization: 'proreact',
 };
 
 export default class KanBanboardContainer extends Component {

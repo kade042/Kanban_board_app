@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import CheckList from './CheckList';
 import marked from 'marked';
 import { CSSTransitionGroup } from 'react-transition-group';
-import { DragSource } from 'react-dnd';
+import { DragSource, DropTarget } from 'react-dnd';
 import constants from './constants';
 
 let titlePropType = (props, propName, componentName) => {
@@ -16,6 +16,13 @@ let titlePropType = (props, propName, componentName) => {
   }
 };
 
+const cardDropSpec = {
+  hover(props, monitor) {
+    const draggedId = monitor.getItem().id;
+    props.cardCallbacks.updatePosition(draggedId, props.id);
+  },
+};
+
 const cardDragSpec = {
   beginDrag(props) {
     return {
@@ -24,11 +31,17 @@ const cardDragSpec = {
   },
 };
 
+let collectDrop = (connect, monitor) => {
+  return {
+    connectDropTarget: connect.dropTarget(),
+  };
+};
+
 let collectDrag = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
   };
-}
+};
 
 class Card extends Component {
   constructor() {
@@ -43,7 +56,7 @@ class Card extends Component {
   }
 
   render() {
-    const { connectDragSource } = this.props;
+    const { connectDragSource, connectDropTarget } = this.props;
 
     let cardDetails;
     if (this.state.showDetails) {
@@ -65,7 +78,7 @@ class Card extends Component {
       backgroundColor: this.props.color,
     };
 
-    return connectDragSource(
+    return connectDropTarget(connectDragSource(
       <div className='card'>
         <div style={ sideColor } />
         <div className={ this.state.showDetails ? 'card_title card_title--is-open' : 'card_title'
@@ -78,7 +91,7 @@ class Card extends Component {
         {cardDetails}
         </CSSTransitionGroup>
       </div>
-    );
+    ));
   }
 }
 
@@ -94,5 +107,6 @@ Card.propTypes = {
 
 };
 
-
-export default DragSource(constants.CARD, cardDragSpec, collectDrag)(Card);
+const dragHighOrderCard = DragSource(constants.CARD, cardDragSpec, collectDrag)(Card);
+const dragDropHighOrderCard = DropTarget(constants.CARD, cardDropSpec, collectDrop)(dragHighOrderCard);
+export default dragDropHighOrderCard;

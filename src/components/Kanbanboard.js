@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import List from './List';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
-export default class KanBanboard extends Component {
+class KanBanboard extends Component {
   render() {
     return (
       <div className='app'>
@@ -30,3 +32,5 @@ KanBanboard.propTypes = {
   taskCallbacks: PropTypes.object,
   cardCallbacks: PropTypes.object,
 };
+
+export default DragDropContext(HTML5Backend)(KanBanboard);

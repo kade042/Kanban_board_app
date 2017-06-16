@@ -4,6 +4,7 @@ import update from 'react-addons-update';
 import 'whatwg-fetch';
 import KanbanBoard from './KanbanBoard';
 import 'babel-polyfill';
+import { throttle } from './utils';
 
 const API_URL = 'http://kanbanapi.pro-react.com/';
 const API_HEADERS = {
@@ -154,14 +155,39 @@ export default class KanBanboardContainer extends Component {
     }
   }
 
+  persistCardDrag(cardId, status) {
+    let cardIndex = this.state.cards.findIndex((card) => card.id == cardId);
+    let card = this.state.cards[cardIndex];
+
+    fetch(`${API_URL}/cards/${cardId}`, {
+      method: 'put',
+      headers: API_HEADERS,
+      body: JSON.stringify({ status: card.status, row_order_position: cardIndex }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error('Server response wasn\'t OK');
+      }
+    }).catch((error) => {
+      console.error('Fetch error: ', error);
+      this.setState(update(this.state, {
+        cards: {
+          [cardIndex]: {
+            status: { $set: status },
+          },
+        },
+      }));
+    });
+  }
+
   render() {
     return (
       <KanbanBoard cards={this.state.cards}
                    taskCallbacks={{ toggle: this.toggleTask.bind(this),
                                     delete: this.deleteTask.bind(this),
                                     add: this.addTask.bind(this), }}
-                    cardCallbacks={{ updateStatus: this.updateCardStatus.bind(this),
-                                     updatePosition: this.updateCardPosition.bind(this), }}
+                    cardCallbacks={{ updateStatus: throttle(this.updateCardStatus.bind(this)),
+                                     updatePosition: throttle(this.updateCardPosition.bind(this)),
+                                     persistCardDrag: throttle(this.persistCardDrag.bind(this)), }}
                                      />
 
     );

@@ -179,6 +179,62 @@ export default class KanBanboardContainer extends Component {
     });
   }
 
+  addCard(card) {
+    let prevState = this.state;
+    if (card.id === null) {
+      let card = Object.assign({}, card, { id: Date.now() });
+    }
+
+    let nextState = update(this.state.cards, { $push: [card] });
+    this.setState({ cards: nextState });
+
+    fetch(`${API_URL}/cards`, {
+      method: 'post',
+      headers: API_HEADERS,
+      body: JSON.stringify(card),
+    })
+    .then((response)=> {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Server response wasn\'t OK');
+      }
+    })
+    .then((responseData)=> {
+      card.id = responseData.id;
+      this.setState({ cards: nextState });
+    })
+    .catch((error)=> {
+      console.error('Fetching error: ', error);
+      this.setState(prevState);
+    });
+  }
+
+  updateCard(card) {
+    let prevState = this.state;
+    let cardIndex = this.state.cards.findIndex((card)=> card.id == card.id);
+    let nextState = update(this.state.cards, {
+      [cardIndex]: { $set: card },
+    });
+
+    this.setState({ cards: nextState });
+
+    fetch(`${API_URL}/cards/${card.id}`, {
+      method: 'put',
+      headers: API_HEADERS,
+      body: JSON.stringify(card),
+    })
+    .then((response)=> {
+      if (!response.ok) {
+        throw new Error('Server response wasn\'t OK');
+      }
+    })
+    .catch((error)=> {
+      console.error('Fetch error: ', error);
+      this.setState(prevState);
+    });
+
+  }
   render() {
     return (
       <KanbanBoard cards={this.state.cards}

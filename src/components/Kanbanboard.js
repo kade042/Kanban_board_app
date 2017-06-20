@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import List from './List';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { Link } from 'react-router';
 
 class KanBanboard extends Component {
   render() {
@@ -11,6 +12,7 @@ class KanBanboard extends Component {
     });
     return (
       <div className='app'>
+        <Link to='/new' className='float-button'>+</Link>
         <List id='todo' title='To Do' taskCallbacks={this.props.taskCallbacks}
               cardCallbacks = {this.props.cardCallbacks}
               cards={

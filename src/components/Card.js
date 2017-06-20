@@ -3,6 +3,7 @@ import CheckList from './CheckList';
 import marked from 'marked';
 import { CSSTransitionGroup } from 'react-transition-group';
 import { DragSource, DropTarget } from 'react-dnd';
+import { Link } from 'react-router';
 import constants from './constants';
 
 let titlePropType = (props, propName, componentName) => {
@@ -30,7 +31,7 @@ const cardDragSpec = {
       status: props.status,
     };
   },
-  
+
   endDrag(props) {
     props.cardCallbacks.persistCardDrag(props.id, props.status);
   },
@@ -86,6 +87,9 @@ class Card extends Component {
     return connectDropTarget(connectDragSource(
       <div className='card'>
         <div style={ sideColor } />
+        <div className='card__edit'>
+          <Link to={'/edit/' + this.props.id}>&#9998;</Link>
+        </div>
         <div className={ this.state.showDetails ? 'card_title card_title--is-open' : 'card_title'
         } onClick={this.toggleDetails.bind(this)}>
           {this.props.title}

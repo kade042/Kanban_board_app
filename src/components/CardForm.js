@@ -21,18 +21,19 @@ export default class CardForm extends Component {
                    placeholder='Title'
                    required={true}
                    autoFocus={true} />
+                   <br />
             <textarea value={this.props.draftCard.description}
                       onChange={this.handleChange.bind(this, 'description')}
                       placeholder='Description'
                       required={true} />
-
+            <br />
             <label htmlFor='status'>Status</label>
             <select id='status'
                     value={this.props.draftCard.status}
                     onChange={this.handleChange.bind(this, 'status')}>
               <option value='todo'>To Do</option>
               <option value='in-progress'>In Progress</option>
-              <option value='don'>Done</option>
+              <option value='done'>Done</option>
             </select>
             <br />
 

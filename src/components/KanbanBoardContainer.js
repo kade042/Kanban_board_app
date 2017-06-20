@@ -235,6 +235,7 @@ export default class KanBanboardContainer extends Component {
     });
 
   }
+
   render() {
 
     let kanbanBoard = this.props.children && React.cloneElement(this.props.children, {

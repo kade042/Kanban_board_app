@@ -46,6 +46,7 @@
   "dependencies": {
     "babel": "^6.23.0",
     "babel-polyfill": "^6.23.0",
+    "history": "^1.17.0",
     "marked": "^0.3.6",
     "react": "^0.14.6",
     "react-addons-css-transition-group": "^15.5.2",
@@ -53,6 +54,7 @@
     "react-dnd": "^2.3.0",
     "react-dnd-html5-backend": "^2.3.0",
     "react-dom": "^0.14.6",
+    "react-router": "^1.0.3",
     "react-transition-group": "^1.2.0",
     "whatwg-fetch": "^2.0.3"
   }

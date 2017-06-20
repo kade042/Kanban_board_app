@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import CardForm from './CardForm';
 
 export default class NewCard extends Component {

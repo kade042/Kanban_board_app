@@ -4,7 +4,7 @@ import marked from 'marked';
 import { CSSTransitionGroup } from 'react-transition-group';
 import { DragSource, DropTarget } from 'react-dnd';
 import { Link } from 'react-router';
-import constants from './constants';
+import constants from '../constants';
 
 let titlePropType = (props, propName, componentName) => {
   if (props[propName]) {

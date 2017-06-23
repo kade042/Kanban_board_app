@@ -4,7 +4,7 @@ import KanbanAPI from '../api/KanbanApi';
 
 let CardActionCreators = {
   fetchCards() {
-    AppDispacher.dispatchAsync(KanbanAPI.fetchCards(), {
+    AppDispatcher.dispatchAsync(KanbanAPI.fetchCards(), {
       request: constants.FETCH_CARDS,
       success: constants.FETCH_CARDS_SUCCESS,
       failure: constants.FETCH_CARDS_ERROR,

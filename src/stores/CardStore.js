@@ -9,6 +9,8 @@ class CardStore extends ReduceStore {
 
   reduce(state, action) {
     switch (action.type) {
+      case constants.FETCH_CARDS_SUCCESS:
+        return action.payload.response;
       default:
         return state;
     }

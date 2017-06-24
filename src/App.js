@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import { Router, Route } from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
-import KanBanboardContainer from './components/KanBanboardContainer';
-import KanBanboard from './components/KanbanBoard';
+import KanbanBoardContainer from './components/KanBanboardContainer';
+import KanbanBoard from './components/KanbanBoard';
 import EditCard from './components/EditCard';
 import NewCard from './components/NewCard';
 
@@ -54,8 +54,8 @@ const rootEl = document.getElementById('root');
 
 render(
     <Router history={ createBrowserHistory() }>
-      <Route component={KanBanboardContainer}>
-        <Route path='/' component={KanBanboard}>
+      <Route component={KanbanBoardContainer}>
+        <Route path='/' component={KanbanBoard}>
           <Route path='new' component={NewCard} />
           <Route path='edit/:card_id' component={EditCard}/>
         </Route>

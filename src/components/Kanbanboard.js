@@ -4,7 +4,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Link } from 'react-router';
 
-class KanBanboard extends Component {
+class KanbanBoard extends Component {
   render() {
     let cardModal = this.props.children && React.cloneElement(this.props.children, {
       cards: this.props.cards,
@@ -36,10 +36,10 @@ class KanBanboard extends Component {
   }
 }
 
-KanBanboard.propTypes = {
+KanbanBoard.propTypes = {
   cards: PropTypes.arrayOf(PropTypes.object),
   taskCallbacks: PropTypes.object,
   cardCallbacks: PropTypes.object,
 };
 
-export default DragDropContext(HTML5Backend)(KanBanboard);
+export default DragDropContext(HTML5Backend)(KanbanBoard);

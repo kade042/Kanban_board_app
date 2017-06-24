@@ -54,21 +54,6 @@ let CardActionCreators = {
     }, (cardProps));
   },
 
-  deleteTask(cardId, task, taskIndex) {
-    AppDispatcher.dispatchAsync(KanbanAPI.deleteTask(cardId, task, taskIndex), {
-      request: constants.DELETE_TASK,
-      success: constants.DELETE_TASK_SUCCESS,
-      failure: constants.DELETE_TASK_ERROR,
-    }, (cardId, task, taskIndex));
-  },
-
-  toggleTask(cardId, task, taskIndex) {
-    AppDispatcher.dispatchAsync(KanbanAPI.toggleTask(cardId, task, taskIndex), {
-      request: constants.TOGGLE_TASK,
-      success: constants.TOGGLE_TASK_SUCCESS,
-      failure: constants.TOGGLE_TASK_ERROR,
-    }, (cardId, task, taskIndex));
-  },
 };
 
 export default CardActionCreators;

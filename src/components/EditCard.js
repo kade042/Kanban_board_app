@@ -1,15 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import CardForm from './CardForm';
+import CardStore from '../stores/CardStore';
+import CardActionCreators from '../actions/CardActionCreators';
+import 'babel-polyfill';
 
 export default class EditCard extends Component {
   componentWillMount() {
-    let card = this.props.cards.find((card)=> card.id == this.props.params.card_id);
-    this.setState({ ...card });
+    let card = CardStore.getCard(parseInt(this.props.params.card_id));
+    this.setState(Object.assign({}, card));
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.cardCallbacks.updateCard(this.state);
+    CardActionCreators.updateCard(CardStore.getCard(parseInt(this.props.params.card_id)),
+      this.state);
     this.props.history.pushState(null, '/');
   }
 
@@ -32,6 +36,4 @@ export default class EditCard extends Component {
   }
 }
 
-EditCard.propTypes = {
-  cardCallbacks: PropTypes.object,
-};
+EditCard.propTypes = { };

@@ -5,6 +5,7 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import { DragSource, DropTarget } from 'react-dnd';
 import { Link } from 'react-router';
 import constants from '../constants';
+import CardActionCreators from '../actions/CardActionCreators';
 
 let titlePropType = (props, propName, componentName) => {
   if (props[propName]) {
@@ -20,7 +21,9 @@ let titlePropType = (props, propName, componentName) => {
 const cardDropSpec = {
   hover(props, monitor) {
     const draggedId = monitor.getItem().id;
-    props.cardCallbacks.updatePosition(draggedId, props.id);
+    if (props.id !== draggedId) {
+      CardActionCreators.updateCardPosition(draggedId, props.id);
+    }
   },
 };
 
@@ -33,7 +36,7 @@ const cardDragSpec = {
   },
 
   endDrag(props) {
-    props.cardCallbacks.persistCardDrag(props.id, props.status);
+    CardActionCreators.persistCardDrag(props);
   },
 };
 
@@ -69,7 +72,7 @@ class Card extends Component {
       cardDetails = (
         <div className='card_details'>
           <span dangerouslySetInnerHTML={{ __html: marked(this.props.description) }} />
-          <CheckList cardId={this.props.id} taskCallbacks={this.props.taskCallbacks} tasks={this.props.tasks} />
+          <CheckList cardId={this.props.id}  tasks={this.props.tasks} />
         </div>
       );
     };
@@ -109,11 +112,10 @@ Card.propTypes = {
   title: titlePropType,
   description: PropTypes.string,
   color: PropTypes.string,
+  status: PropTypes.string,
   tasks: PropTypes.arrayOf(PropTypes.object),
-  taskCallbacks: PropTypes.object,
-  cardCallbacks: PropTypes.object,
   connectDragSource: PropTypes.func.isRequired,
-
+  onnectDropTarget: PropTypes.func.isRequired,
 };
 
 const dragHighOrderCard = DragSource(constants.CARD, cardDragSpec, collectDrag)(Card);

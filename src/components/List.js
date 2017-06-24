@@ -20,7 +20,8 @@ function collect(connect, monitor) {
 class List extends Component {
   render() {
     const { connectDropTarget } = this.props;
-    let cards = this.props.cards.map((card)=> {
+    
+    let cards = this.props.cards.map((card) => {
       return <Card key={card.id} {...card} />;
     });
 

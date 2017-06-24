@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import CardForm from './CardForm';
+import CardActionCreators from '../actions/CardActionCreators';
 
 export default class NewCard extends Component {
   componentWillMount() {
@@ -19,7 +20,7 @@ export default class NewCard extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.cardCallbacks.addCard(this.state);
+    CardActionCreators.addCard(this.state);
     this.props.history.pushState(null, '/');
   }
 
@@ -37,7 +38,3 @@ export default class NewCard extends Component {
     );
   }
 }
-
-NewCard.propTypes = {
-  cardCallbacks: PropTypes.object,
-};
